@@ -21,7 +21,8 @@ class Solution:
         
 
 
-def iterative_dfs(root:Optional[TreeNode], traversal, stack, visited) -> List[TreeNode]:
+def iterative_dfs(root: Optional[TreeNode], traversal: List[int], 
+                  stack: List[TreeNode], visited: Set[TreeNode]) -> List[TreeNode]:
     
     '''
     Adding root to stack so that we can start the iteration.
