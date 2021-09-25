@@ -22,10 +22,9 @@ bool same_structure(struct TreeNode *p, struct TreeNode *q);
 /*
 Driver code
 */
-bool isSameTree(struct TreeNode* p, struct TreeNode* q){
-    
-    return same_structure(p, q);
-    
+bool isSameTree(struct TreeNode* p, struct TreeNode* q)
+{
+    return same_structure(p, q);    
 }
 
 /*
