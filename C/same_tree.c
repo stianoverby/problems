@@ -5,16 +5,15 @@
  * The number of nodes in both trees is in the range [0, 100].
  * -104 <= Node.val <= 104
  *
- * From https://leetcode.com/problems/same-tree/
- */
-
-/**
+ *
  * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
  *     struct TreeNode *left;
  *     struct TreeNode *right;
  * };
+ * 
+ * Source:  https://leetcode.com/problems/same-tree/
  */
 
 bool same_value(int val1, int val2);
