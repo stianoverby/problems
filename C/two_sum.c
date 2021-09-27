@@ -16,6 +16,8 @@
  * The tests are generated such that there is exactly one solution.
  *
  * Note: The returned array must be malloced, assume caller calls free().
+ *
+ * Source: https://leetcode.com/problems/two-sum-ii-input-array-is-sorted
  */
 
 #define RETURN_SIZE 2
