@@ -19,7 +19,10 @@ Definition for a binary tree node.
          self.val = val
          self.left = left
          self.right = right
+         
+source: https://leetcode.com/problems/merge-two-binary-trees/
 """
+
 class Solution(object):
     def mergeTrees(self, root1, root2):
         """
