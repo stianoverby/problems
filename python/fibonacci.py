@@ -25,6 +25,8 @@ class Solution(object):
         fib_sequence[1] = 1
 
         for i in range( len(fib_sequence) - 2 ):
+            # set every element besides the two first, to be the sum
+            # of the two previous elements.
             fib_sequence[i+2] = fib_sequence[i] + fib_sequence[i+1]
     
         return fib_sequence[n]
