@@ -34,8 +34,8 @@ class Solution:
    Append to list and retrive element from middle index.
    '''     
    def middle_node(self, head: Optional[ListNode]) -> Optional[ListNode]:     
-        Adding to list approach. Traverse the list and add nodes to list. Middle at
-        index len(nodes)//2.
+        # Adding to list approach. Traverse the list and add nodes to list. Middle at
+        # index len(nodes)//2.
         
         nodes = [];
         traversing_node = head;
