@@ -27,7 +27,7 @@
   (map (lambda (x y) (< x y)) sequence (append (cdr sequence) (list 0))))
 
 
-#|Sum three and tree elements, and gather elements in new list|#
+#|Sum three and three elements, and gather elements in new list|#
 (define (sum-windows sequence)
   (if (null? (cddr sequence))
       '()
