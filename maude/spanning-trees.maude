@@ -1,0 +1,93 @@
+load full-maude31
+
+***(
+
+Given a graph (that is, a bunch of nodes connected by edges), a spanning tree of the graph
+is a subset of the edges, so that: (i) all nodes in the graph are connected by those edges, and
+(ii) there is no cycle formed by those edges.
+
+In this exercise we consider the classic problem of finding a small spanning tree when the edges
+have weights (or costs). For example, you want to connect all houses (nodes) to the power
+grid using as little money as possible (the weight of the edge could denote the cost of building
+a power line between the two houses). The classic problem is then: Is there is a spanning tree
+for the graph with total weight/cost of the edges less than a number K?
+
+Define a function 'op disconnected : Configuration Configuration -> Bool' such that disconnected(c1, c2) 
+is true if and only if there is no edge from any node in c1 to a node in c2.
+
+Define a function 'op spanningTree : Configuration NzNat -> Bool' such that spanningTree(graph, k)
+returns true if and only if graph has a spanning tree with total weight less than or equal to k.
+
+)
+
+(omod DIRECTED-GRAPH
+    is protecting NAT .
+
+    sorts Edge Neighbors .
+    subsort Edge < Neighbors .
+    
+    op noNeighbors : -> Neighbors [ctor] .
+    op __ : Neighbors Neighbors -> Neighbors [ctor assoc comm id: noNeighbors] .
+    op _withCost_ : Oid NzNat -> Edge [ctor] .
+
+    class Node | neighbors : Neighbors .
+
+endom)
+
+(omod SPANNING-TREES
+    is protecting DIRECTED-GRAPH .
+
+    --- Node names
+    ops n1 n2 n3 n4 n5 n6 n7 n8 n9 : -> Oid .
+
+    --- Representation of a graphs
+    op graph1 : -> Configuration .
+    eq graph1 =  < n2 : Node | neighbors : (n1 withCost 6) (n3 withCost 5) (n5 withCost 3) >
+                < n1 : Node | neighbors : (n2 withCost 6) (n3 withCost 1) (n4 withCost 5) >
+                < n4 : Node | neighbors : (n1 withCost 5) (n3 withCost 5) (n6 withCost 2) >
+                < n6 : Node | neighbors : (n4 withCost 2) (n3 withCost 4) (n5 withCost 6) >
+                < n3 : Node | neighbors : (n2 withCost 5) (n1 withCost 1) (n4 withCost 5) (n6 withCost 4) (n5 withCost 6) >
+                < n5 : Node | neighbors : (n6 withCost 6) (n3 withCost 6) (n2 withCost 3) > .
+
+    op graph2 : -> Configuration .
+    eq graph2 =  < n4 : Node | neighbors : (n7 withCost 1) (n8 withCost 1) (n9 withCost 1) > .
+
+    op graph3 : -> Configuration .
+    eq graph3 =  < n4 : Node | neighbors : (n7 withCost 1) (n8 withCost 1) (n9 withCost 1) >
+                 < n7 : Node | neighbors : (n1 withCost 1) (n8 withCost 1) (n9 withCost 1) > .
+
+
+    --- Variables; in maude variables are capital letters.
+    vars C REST REST' : Configuration .
+    vars V V' : Oid .
+    var NEIGHBORS : Neighbors .
+    vars NZN NZN' : NzNat .
+
+    --- Helper function; true if and only if node exists in configuration.
+    op _in_ : Oid Configuration -> Bool .
+
+    eq V in none = false .
+    eq V in < V' : Node | > REST' = if V == V' 
+                                        then true
+                                        else V in REST'
+                                    fi .
+    
+    --- disconnected(c1, c2) is true if and only if there is no edge from any node in c1 to a node in c2.
+    op disconnected : Configuration Configuration -> Bool .
+
+    --- No nodes left to check, the two graphs are disconnected
+    eq disconnected(none, C) = true .
+
+    --- No neighbors left in V, discard and continue search using the rest of the configuration.
+    eq disconnected(< V : Node | neighbors : noNeighbors > REST, C ) = disconnected(REST, C) .
+
+    --- Check if any of the edges goes to a node in C
+    eq disconnected(< V : Node | neighbors : (V' withCost NZN) NEIGHBORS > REST, C) = 
+                     if V' in C
+                        then false
+                        else disconnected(< V : Node | neighbors : NEIGHBORS > REST, C)
+                     fi .
+
+    
+   
+endom)
