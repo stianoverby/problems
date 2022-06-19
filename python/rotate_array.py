@@ -10,25 +10,27 @@ Constraints:
 source: https://leetcode.com/problems/rotate-array/
 """
 
+
 class Solution:
     def rotate(self, nums: List[int], k: int) -> None:
-        
+
         k = k % len(nums)
         # reverse nums.
-        nums = reverse_placement(nums, 0, len(nums)-1)
-        
+        nums = reverse_placement(nums, 0, len(nums) - 1)
+
         # reverse the position of the first k-1 elements.
         nums = reverse_placement(nums, 0, k - 1)
-        
+
         # reverse the remaining elements of the list.
-        nums = reverse_placement(nums, k, len(nums)-1)
+        nums = reverse_placement(nums, k, len(nums) - 1)
         """
         Nums have now been shifted k places to the right through this cool algorithm.
         If you do not understand it, draw elements on pieces of paper and 
         do it manually. This is really cool.
         """
-    
-def reverse_placement(nums: List[int], low: int, high:int) -> List[int]:
+
+
+def reverse_placement(nums: List[int], low: int, high: int) -> List[int]:
     while low < high:
         tmp = nums[low]
         nums[low] = nums[high]
@@ -36,6 +38,3 @@ def reverse_placement(nums: List[int], low: int, high:int) -> List[int]:
         low += 1
         high -= 1
     return nums
-            
-            
-        

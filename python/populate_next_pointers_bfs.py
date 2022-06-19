@@ -28,6 +28,7 @@ class Node(object):
 source: https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
 """
 
+
 class Solution(object):
     def connect(self, root):
         """
@@ -35,44 +36,44 @@ class Solution(object):
         :rtype: Node
         """
         return bfs_connect(root)
-        
-def bfs_connect(root):   
-    
+
+
+def bfs_connect(root):
+
     node = root
-    
-    # Initialize a queue for traversing the graph 
+
+    # Initialize a queue for traversing the graph
     Q = [node]
-    
-    N_nodes_in_layer = 2 
-    
+
+    N_nodes_in_layer = 2
+
     # Traverse the whole graph
     while Q:
-      
+
         node = Q.pop(0)
-        
+
         # We are adding None elements to our queue, so we have to check so that we dont do any operations on a None object
         if node:
             Q.append(node.left)
             Q.append(node.right)
-  
+
             # Check if we have reached a full layer so that we traverse the queue to set the next pointers
             if len(Q) == N_nodes_in_layer:
                 N_nodes_in_layer *= 2
-                
+
                 # Add next to every node in layer
-                for low_ptr in range(len(Q)-1):
-                    
-                    for high_ptr in range(low_ptr+1, len(Q)):
-                        
+                for low_ptr in range(len(Q) - 1):
+
+                    for high_ptr in range(low_ptr + 1, len(Q)):
+
                         # Only add node as next pointer if it is not None
                         if Q[high_ptr] != None:
-                            
+
                             Q[low_ptr].next = Q[high_ptr]
-                            
+
                             # Let us set the low_ptr to the current position of the high_ptr so that we
                             # dont loof for a next pointer for None objects
                             low_ptr = high_ptr
                             break
 
-    return root 
-       
+    return root

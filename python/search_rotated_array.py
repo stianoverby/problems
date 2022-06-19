@@ -1,4 +1,4 @@
-'''
+"""
 SEARCH IN ROTATED SORTED ARRAY
 
 There is an integer array nums sorted in ascending order (with distinct values).
@@ -21,41 +21,42 @@ nums is an ascending array that is possibly rotated.
 
 source: https://leetcode.com/problems/search-in-rotated-sorted-array/
 
-'''
+"""
+
 
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        
-        if len(nums) == 0: 
-          return -1
-        
+
+        if len(nums) == 0:
+            return -1
+
         return binary_search(nums, target)
-      
+
 
 def binary_search(nums: List[int], target: int) -> int:
-    
+
     low = 0
     high = len(nums) - 1
-    
+
     first = nums[0]
-    
+
     while low <= high:
-        
+
         mid = low + (high - low) // 2
-        
+
         if nums[mid] == target:
             return mid
-        
+
         # Mid elem is larger than first elem, and target is greater than first elem
-        # OR 
+        # OR
         # Mid elem is less than first elem, and target is less than first elem
         if (nums[mid] >= first) == (target >= first):
-            
-            if nums[mid]< target:
+
+            if nums[mid] < target:
                 low = mid + 1
             else:
                 high = mid - 1
-                
+
         # Mid elem is larger than first element, and target is less than first elem
         # OR
         # Mid elem is less than first elem, and target is greater than first elem
@@ -64,5 +65,5 @@ def binary_search(nums: List[int], target: int) -> int:
                 low = mid + 1
             else:
                 high = mid - 1
-                
-    return -1        
+
+    return -1

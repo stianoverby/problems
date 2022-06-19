@@ -23,6 +23,7 @@ Definition for a binary tree node.
 source: https://leetcode.com/problems/merge-two-binary-trees/
 """
 
+
 class Solution(object):
     def mergeTrees(self, root1, root2):
         """
@@ -32,19 +33,20 @@ class Solution(object):
         """
         return bfs_merge(root1, root2)
 
+
 def bfs_merge(root1, root2):
-    
+
     node = TreeNode()
 
     if root1 and root2:
-        
+
         node.val = root1.val + root2.val
-        
+
         node.left = bfs_merge(root1.left, root2.left)
         node.right = bfs_merge(root1.right, root2.right)
-        
+
         return node
-    
+
     elif root1:
         return root1
 

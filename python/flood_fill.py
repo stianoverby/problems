@@ -19,45 +19,46 @@ n == image[i].length
 source : https://leetcode.com/problems/flood-fill/
 """
 
+
 class Solution:
-    def floodFill(self, image: List[List[int]], sr: int, sc: int, new_color: int) -> List[List[int]]:
+    def floodFill(
+        self, image: List[List[int]], sr: int, sc: int, new_color: int
+    ) -> List[List[int]]:
 
         target_color = image[sr][sc]
-        
-        #if the color of our start pixel already is the new color, then we do not have to do anything 
+
+        # if the color of our start pixel already is the new color, then we do not have to do anything
         if target_color == new_color:
             return image
-        
-        #stack for our DFS
+
+        # stack for our DFS
         stack = list()
-        
+
         # range of x, y coordinates
         image_width = range(0, len(image))
         image_height = range(0, len(image[0]))
-        
+
         # put coordinate on our stack
         stack.append((sr, sc))
-         
+
         while len(stack):
-            
+
             # take the coordinate from the top of our stack, and set it to the new color
-            x,y = stack.pop()
+            x, y = stack.pop()
             image[x][y] = new_color
-            
+
             # Check if horizontal neighboors are valid and have target color
-            for i in range (x-1, x+2):
-                
+            for i in range(x - 1, x + 2):
+
                 if i in image_width and image[i][y] == target_color:
-                        
-                        stack.append((i,y))
-            
+
+                    stack.append((i, y))
+
             # Check if vertical neighboors are valid and have target color
-            for i in range (y-1, y+2):
-                
+            for i in range(y - 1, y + 2):
+
                 if i in image_height and image[x][i] == target_color:
-                        
-                        stack.append((x,i))
-                           
-        return image    
-        
-        
+
+                    stack.append((x, i))
+
+        return image

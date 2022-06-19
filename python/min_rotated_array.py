@@ -1,4 +1,4 @@
-''' Find minimum in Rotated Sorted Array
+""" Find minimum in Rotated Sorted Array
 
 Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
 
@@ -20,27 +20,27 @@ nums is sorted and rotated between 1 and n times.
 
 Source: https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
 
-'''
+"""
+
 
 class Solution:
     def findMin(self, nums: List[int]) -> int:
-        return find_lowest(nums)     
-        
-        
+        return find_lowest(nums)
+
+
 def find_lowest(nums: List[int]) -> int:
-    
+
     low = 0
-    high = len(nums)-1
+    high = len(nums) - 1
     first_element_in_array = nums[0]
-    
+
     while nums[low] > nums[high]:
-        
+
         mid = low + (high - low) // 2
-        
+
         if nums[mid] >= nums[low]:
             low = mid + 1
         else:
             high = mid
-        
-    return nums[low]           
-         
+
+    return nums[low]

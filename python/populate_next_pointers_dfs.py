@@ -28,6 +28,7 @@ class Node(object):
 source: https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
 """
 
+
 class Solution(object):
     def connect(self, root):
         """
@@ -35,28 +36,28 @@ class Solution(object):
         :rtype: Node
         """
         return dfs(root, None)
-        
+
+
 def dfs(root, right):
-    
+
     if root == None:
         return None
-    
+
     # The next of this node has to be the right child of
     # the parent
     root.next = right
-    
+
     # Continue traversing the children of this node
     dfs(root.left, root.right)
-    
+
     # If the right child of the parent is a node, the left
     # child of that node has to be the next of the currents
     # node's right child
     if right:
         dfs(root.right, right.left)
-    
+
     # If that is not the case, the next node has to be None
     else:
         dfs(root.right, None)
-        
+
     return root
-     
