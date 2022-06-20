@@ -20,7 +20,7 @@ returns true if and only if graph has a spanning tree with total weight less tha
 
 )
 
-(omod DIRECTED-GRAPH
+(omod GRAPH
     is protecting NAT .
 
     sorts Edge Neighbors .
@@ -34,8 +34,9 @@ returns true if and only if graph has a spanning tree with total weight less tha
 
 endom)
 
-(omod SPANNING-TREES
-    is protecting DIRECTED-GRAPH .
+(omod SPANNING-TREES is 
+    protecting GRAPH .
+    protecting INT .
 
     --- Node names
     ops n1 n2 n3 n4 n5 n6 n7 n8 n9 : -> Oid .
@@ -50,20 +51,18 @@ endom)
                 < n5 : Node | neighbors : (n6 withCost 6) (n3 withCost 6) (n2 withCost 3) > .
 
     op graph2 : -> Configuration .
-    eq graph2 =  < n4 : Node | neighbors : (n7 withCost 1) (n8 withCost 1) (n9 withCost 1) > .
-
-    op graph3 : -> Configuration .
-    eq graph3 =  < n4 : Node | neighbors : (n7 withCost 1) (n8 withCost 1) (n9 withCost 1) >
-                 < n7 : Node | neighbors : (n1 withCost 1) (n8 withCost 1) (n9 withCost 1) > .
+    eq graph2 = < n1 : Node | neighbors : (n2 withCost 1) >
+                < n2 : Node | neighbors : (n1 withCost 1) (n3 withCost 2) >
+                < n3 : Node | neighbors : (n2 withCost 2) > .
 
 
     --- Variables; in maude variables are capital letters.
-    vars C REST REST' : Configuration .
+    vars C C' REST REST' : Configuration .
     vars V V' : Oid .
-    var NEIGHBORS : Neighbors .
+    var NEIGHBORS NEIGHBORS' : Neighbors .
     vars NZN NZN' : NzNat .
 
-    --- Helper function; true if and only if node exists in configuration.
+    --- Helper function; true if and only if node with oid V exists in configuration.
     op _in_ : Oid Configuration -> Bool .
 
     eq V in none = false .
@@ -88,6 +87,33 @@ endom)
                         else disconnected(< V : Node | neighbors : NEIGHBORS > REST, C)
                      fi .
 
+    op spanningTree : Configuration NzNat -> Bool .
+
+    --- Overload helper function to build up tree
+    op spanningTree : Configuration Configuration Int -> Bool .
+
+    var I : Int .
+
+    eq spanningTree(< V : Node | > C, NZN) = spanningTree(< V : Node | >, C, NZN) .
+    eq spanningTree(C, none, I) = true .
+
+    ceq spanningTree(C, C', I) = false if I < 0 .
+    ceq spanningTree(C, C', I) = false if ((C' =/= none) and disconnected(C, C')) .
+
+
+    eq spanningTree(< V : Node | > REST, 
+                    < V' : Node | neighbors : (V withCost NZN) NEIGHBORS > REST',
+                    I) =
+                        --- Include edge in spanning tree  
+                        (spanningTree(< V : Node | > < V' : Node | > REST, 
+                                      REST',
+                                      I - NZN))
+                        or
+                        
+                        --- Or not
+                        (spanningTree(< V : Node | >,
+                                      < V' : Node | neighbors : NEIGHBORS > REST,
+                                      I)) .
     
    
 endom)
