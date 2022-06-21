@@ -69,6 +69,7 @@ fmod TRIP is
     eq cost(empty) = 0 .
     eq cost(C) = 0 .
     eq cost(C --> C' --> T) = cost(C, C') + cost(C' --> T) .
+
     
 endfm
 
@@ -78,14 +79,38 @@ mod TRAVELING-SALESMAN is
 
     sort State .
     op Trip :_ Cities :_ : Trip Cities -> State[ctor] .
-    
-    var C : City .
+ 
+    vars T T' : Trip .
+    vars C C' CITY : City .
+    var CITIES : Cities .
 
+    --- Function to generate an inital state
     op init : City -> State .
     eq init(C) = Trip : C Cities : cities \ C .
 
+    --- Pick one city and add it to the trip
+    rl [start-travel] :
+
+        Trip : C Cities : CITY ; CITIES 
+        => 
+        Trip : C --> CITY Cities : CITIES .
+
+    --- Pick one city and add it to the trip; make sure
+    --- the trip has not ended, and that we are not in the
+    --- city picked
+    crl [travel-to-city] :
+
+        Trip : C --> T --> C' Cities : CITY ; CITIES 
+        =>
+        Trip : C --> T --> C' --> CITY Cities : CITIES
+        if ((C =/= C') and (C' =/= CITY)) .
     
+    --- Travel home, if already not in home city
+    crl [travel-home] :
 
-
+        Trip : C --> T --> C' Cities : CITIES
+        =>
+        Trip : C --> T --> C' --> C Cities : CITIES 
+        if C =/= C' .
 
 endm
