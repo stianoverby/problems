@@ -1,0 +1,91 @@
+fmod CITY is
+    protecting NAT .
+
+    sorts City Cities .
+
+    --- Every City is also of type Cities
+    subsort City < Cities .
+
+    --- Declaring Cities as a multiset
+    op none : -> Cities [ctor] .
+    op _;_ : Cities Cities -> Cities [ctor assoc comm id: none] .
+    
+    --- All city names
+    ops Oslo Trondheim Bergen Stavanger Tromso Stange : -> City [ctor] .
+
+    --- Multiset of all the cities declared as the constant cities
+    op cities : -> Cities .
+    eq cities = Oslo ; Trondheim ; Bergen ; Stavanger ; Tromso ; Stange .
+    
+    vars CITIES : Cities .
+    vars C C' : City .
+    
+    --- Defining set difference
+    op _\_ : Cities City -> Cities .
+    eq none \ C' = none .
+    eq (C ; CITIES) \ C' = if C == C' 
+                                then CITIES \ C'
+                                else C ; (CITIES \ C')
+                               fi .
+
+    --- Function that takes two cities, and returns the cost of traveling between them
+    op cost : City City -> Nat [comm] .
+
+    --- Listing of all distances
+    eq cost(Oslo, Trondheim) = 484 .
+    eq cost(Oslo, Bergen) = 460 .
+    eq cost(Oslo, Stavanger) = 443 .
+    eq cost(Oslo, Tromso) = 1747 .
+    eq cost(Oslo, Stange) = 115 .
+
+    eq cost(Trondheim, Bergen) = 647 .
+    eq cost(Trondheim, Stavanger) = 826 .
+    eq cost(Trondheim, Tromso) = 1127 .
+    eq cost(Trondheim, Stange) = 377 .
+
+    eq cost(Bergen, Stavanger) = 210 .
+    eq cost(Bergen, Tromso) = 1770 .
+    eq cost(Bergen, Stange) = 476 .
+
+    eq cost(Stavanger, Tromso) = 1948 .
+    eq cost(Stavanger, Stange) = 588 .
+
+    eq cost(Tromso, Stange) = 1640 .
+endfm 
+
+fmod TRIP is
+    protecting CITY .
+    
+    sort Trip .
+    subsort City < Trip .
+    op empty : -> Trip [ctor] .
+    op _-->_ : Trip Trip -> Trip [ctor assoc id: empty] .
+
+    vars T T' : Trip .
+    vars C C' : City .
+
+    --- Function that gives the total cost of a journey
+    op cost : Trip -> Nat .
+    eq cost(empty) = 0 .
+    eq cost(C) = 0 .
+    eq cost(C --> C' --> T) = cost(C, C') + cost(C' --> T) .
+    
+endfm
+
+
+mod TRAVELING-SALESMAN is
+    protecting TRIP .
+
+    sort State .
+    op Trip :_ Cities :_ : Trip Cities -> State[ctor] .
+    
+    var C : City .
+
+    op init : City -> State .
+    eq init(C) = Trip : C Cities : cities \ C .
+
+    
+
+
+
+endm
