@@ -45,7 +45,8 @@ int main()
 	while (cin >> a >> b)
 	{
 		/* Fill vector with all possible cycle lengths */
-        	vector<int> numbers;	
+        vector<int> numbers;	
+		
 		for(int i = a; i < b; i++)
 			numbers.push_back(cycle_length(i));
 
