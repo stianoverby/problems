@@ -1,11 +1,11 @@
 
-/**
- * Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, 
- * find two numbers such that they add up to a specific target number. Let these two numbers be 
+/** Two sum
+ * Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order,
+ * find two numbers such that they add up to a specific target number. Let these two numbers be
  * numbers[index1] and numbers[index2] where 1 <= first < second <= numbers.length.
- * 
+ *
  * Return the indices of the two numbers, index1 and index2, as an integer array [index1, index2] of length 2.
- * 
+ *
  * The tests are generated such that there is exactly one solution. You may not use the same element twice.
  *
  * Constraints
@@ -22,24 +22,19 @@
 
 #define RETURN_SIZE 2
 
-int* two_sum(int* numbers, int numbers_size, int target, int* return_size){
-    
+int *two_sum(int *numbers, int numbers_size, int target, int *return_size)
+{
+
     int low, high, sum;
-    
-    *return_size = 0; 
-    
+    *return_size = 0;
     low = 0;
-    high = numbers_size-1;
-    
+    high = numbers_size - 1;
+
     int *addends = malloc(sizeof(int) * RETURN_SIZE);
-    
-    while(low < high)
+    while (low < high)
     {
         sum = numbers[low] + numbers[high];
-      
-        /*
-        If the sum of the element at the high and low pointer is equal to the target, return the indexes.
-        */
+
         if (sum == target)
         {
             addends[0] = low + 1;
@@ -47,20 +42,15 @@ int* two_sum(int* numbers, int numbers_size, int target, int* return_size){
             *return_size = RETURN_SIZE;
             return addends;
         }
-        
-        /*
-        If the sum is less than the target, then we have to increase the low pointer to increase the sum.
-        */
-        else if(sum < target)
+        else if (sum < target)
+        {
             low++;
-        
-        /*
-        If the sum is more than the target, then we have to decrease the low pointer to decrease the sum.
-        */
-        else if(sum > target)
+        }
+        else if (sum > target)
+        {
             high--;
+        }
     }
-    
-    
+
     return addends;
 }
